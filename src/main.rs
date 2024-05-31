@@ -60,7 +60,7 @@ fn format_size(format: u16) -> u32 {
 }
 
 fn main()  {
-    let path = "res/img/test.jpg";
+    let path = "resources/images/test.jpg";
 
     let mut file = File::open(path).unwrap();
 
