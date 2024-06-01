@@ -1,9 +1,8 @@
 use std::fs::File;
-use std::io::{Read};
+use std::io::Read;
 use std::ffi::CStr;
 use std::os::raw::c_char;
 use std::str;
-use std::io;
 
 fn fetch_u16(data: &[u8], offset: usize, is_le : bool) -> u16 {
     if is_le {
@@ -149,7 +148,7 @@ fn main()  {
     if gps_segment_start != 0 {
         let gps_no_entries =  fetch_u16(&buffer, gps_segment_start, is_le);
         i = gps_segment_start + 2;
-        for j in 0..gps_no_entries {
+        for _ in 0..gps_no_entries {
             let tag : u16 = fetch_u16(&buffer, i, is_le);
             let format : u16 = fetch_u16(&buffer, i+2, is_le);
             let len : u32 = fetch_u32(&buffer, i+4, is_le);
@@ -172,7 +171,7 @@ fn main()  {
     if exif_ifd_segment_start != 0 {
         let exif_ifd_no_entries =  fetch_u16(&buffer, exif_ifd_segment_start, is_le);
         i = exif_ifd_segment_start + 2;
-        for j in 0..exif_ifd_no_entries {
+        for _ in 0..exif_ifd_no_entries {
             let tag : u16 = fetch_u16(&buffer, i, is_le);
             let format : u16 = fetch_u16(&buffer, i+2, is_le);
             let len : u32 = fetch_u32(&buffer, i+4, is_le);
