@@ -4,39 +4,33 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 use std::str;
 
-fn fetch_u16(data: &[u8], offset: usize, is_le : bool) -> u16 {
+fn fetch_u16(data: &[u8], offset: usize, is_le: bool) -> u16 {
+    let info = data[offset..(offset + 2)].try_into().unwrap();
     if is_le {
-        u16::from_le_bytes([data[offset], data[offset + 1]])
+        u16::from_le_bytes(info)
     } else {
-        u16::from_be_bytes([data[offset], data[offset + 1]])
+        u16::from_be_bytes(info)
     }
 }
 
-fn fetch_u32(data: &[u8], offset: usize, is_le : bool) -> u32 {
+fn fetch_u32(data: &[u8], offset: usize, is_le: bool) -> u32 {
+    let info = data[offset..(offset + 4)].try_into().unwrap();
     if is_le {
-        u32::from_le_bytes([data[offset], data[offset + 1], data[offset + 2], data[offset + 3]])
+        u32::from_le_bytes(info)
     } else {
-        u32::from_be_bytes([data[offset], data[offset + 1], data[offset + 2], data[offset + 3]])
+        u32::from_be_bytes(info)
     }
 }
 
 fn fetch_rational_str(data: &[u8], offset: usize, is_le : bool) -> String {
-    if is_le {
-        let num = u32::from_le_bytes([data[offset], data[offset + 1], data[offset + 2], data[offset + 3]]);
-        let den = u32::from_le_bytes([data[offset + 4], data[offset + 5], data[offset + 6], data[offset + 7]]);
-        format!("{}/{}", num, den)
-    } else {
-        let num = u32::from_be_bytes([data[offset], data[offset + 1], data[offset + 2], data[offset + 3]]);
-        let den = u32::from_be_bytes([data[offset + 4], data[offset + 5], data[offset + 6], data[offset + 7]]);
-        format!("{}/{}", num, den)
-    }
+    let num = fetch_u32(data, offset, is_le);
+    let den = fetch_u32(data, offset + 4, is_le);
+    format!("{}/{}", num, den)
 }
 
 fn fetch_null_terminated_str(data: &[u8], offset: usize) -> &str {
     let offset_ptr = unsafe { data.as_ptr().add(offset) };
-
     let c_str: &CStr = unsafe { CStr::from_ptr(offset_ptr as *const c_char) };
-
     c_str.to_str().unwrap()
 }
 
@@ -60,13 +54,9 @@ fn format_size(format: u16) -> u32 {
 
 fn main()  {
     let path = "resources/images/test.jpg";
-
     let mut file = File::open(path).unwrap();
-
     let mut buffer = Vec::<u8>::new();
-
     let _ = file.read_to_end(&mut buffer);
-
     let mut found_exif_segment : bool = false;
 
     let mut exif_segment_start : u16 = 0;
