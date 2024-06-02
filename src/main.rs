@@ -1,39 +1,8 @@
-use std::ffi::CStr;
-use std::os::raw::c_char;
-use std::str;
 use std::env;
 
 mod image_manager;
-
-fn fetch_u16(data: &[u8], offset: usize, is_le: bool) -> u16 {
-    let info = data[offset..(offset + 2)].try_into().unwrap();
-    if is_le {
-        u16::from_le_bytes(info)
-    } else {
-        u16::from_be_bytes(info)
-    }
-}
-
-fn fetch_u32(data: &[u8], offset: usize, is_le: bool) -> u32 {
-    let info = data[offset..(offset + 4)].try_into().unwrap();
-    if is_le {
-        u32::from_le_bytes(info)
-    } else {
-        u32::from_be_bytes(info)
-    }
-}
-
-fn fetch_rational_str(data: &[u8], offset: usize, is_le : bool) -> String {
-    let num = fetch_u32(data, offset, is_le);
-    let den = fetch_u32(data, offset + 4, is_le);
-    format!("{}/{}", num, den)
-}
-
-fn fetch_null_terminated_str(data: &[u8], offset: usize) -> &str {
-    let offset_ptr = unsafe { data.as_ptr().add(offset) };
-    let c_str: &CStr = unsafe { CStr::from_ptr(offset_ptr as *const c_char) };
-    c_str.to_str().unwrap()
-}
+mod data_reader;
+mod exif;
 
 fn format_size(format: u16) -> u32 {
     match format {
@@ -77,22 +46,22 @@ fn main() {
 
     while i < exif_segment_start as usize + exif_segment_size as usize  {
         if found_exif_segment == false {
-            if fetch_u16(&buffer, i, is_le) == 0xFFE1 {
+            if data_reader::fetch_u16(&buffer, i, is_le) == 0xFFE1 {
                 exif_segment_start = i as u16;
-                exif_segment_size = fetch_u16(&buffer, i+2, is_le);
+                exif_segment_size = data_reader::fetch_u16(&buffer, i+2, is_le);
                 println!("EXIF segment size {} and has size of {} bytes", i, exif_segment_size);
-                if fetch_null_terminated_str(&buffer, i+4) != "Exif" {
+                if data_reader::fetch_null_terminated_str(&buffer, i+4) != "Exif" {
                     println!("Invalid EXIF segment!");
                     return
                 }
                 tiff_header_start = i+10;
-                if fetch_u32(&buffer, i+10, is_le) == 0x49492A00 {
+                if data_reader::fetch_u32(&buffer, i+10, is_le) == 0x49492A00 {
                     is_le = true;
                 } 
-                else if fetch_u32(&buffer, i+10, is_le) == 0x4D4D002A {
+                else if data_reader::fetch_u32(&buffer, i+10, is_le) == 0x4D4D002A {
                     is_le = false;
                 }
-                no_entries = fetch_u16(&buffer, i+18, is_le);
+                no_entries = data_reader::fetch_u16(&buffer, i+18, is_le);
                 println!("IFD0 start {}", i + 10 + buffer[i+14] as usize);
                 println!("No. IFD0 entries {}", no_entries);
                 println!("-----------------------------------------------------");
@@ -105,25 +74,25 @@ fn main() {
         }
         else {
             // Reading IFD entries
-            let tag : u16 = fetch_u16(&buffer, i, is_le);
-            let format : u16 = fetch_u16(&buffer, i+2, is_le);
-            let len : u32 = fetch_u32(&buffer, i+4, is_le);
+            let tag : u16 = data_reader::fetch_u16(&buffer, i, is_le);
+            let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
+            let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
             let size : u32 = len * format_size(format);
 
-            let data : u32 = fetch_u32(&buffer, i+8, is_le);
+            let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
 
             match tag {
                 0x0100 => println!("Image width: {}", data),
                 0x0101 => println!("Image height: {}", data),
-                0x010F => println!("Manufacturer of the recording equipment: {}", fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
-                0x0110 => println!("Recording equipment model: {}", fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
+                0x010F => println!("Manufacturer of the recording equipment: {}", data_reader::fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
+                0x0110 => println!("Recording equipment model: {}", data_reader::fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
                 0x0112 => println!("Orientation: {}", data),
-                0x011A => println!("Image resolution in width direction: {}", fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le)),
-                0x011B => println!("Image resolution in height direction: {}", fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le)),
+                0x011A => println!("Image resolution in width direction: {}", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le)),
+                0x011B => println!("Image resolution in height direction: {}", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le)),
                 0x0128 => println!("Image resolution unit (inches): {}", data),
-                0x0131 => println!("Software used to create image: {}", fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
-                0x0132 => println!("Photo created at: {}", fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
+                0x0131 => println!("Software used to create image: {}", data_reader::fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
+                0x0132 => println!("Photo created at: {}", data_reader::fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
                 0x8769 => exif_ifd_segment_start = tiff_header_start + data as usize,
                 0x8825 => gps_segment_start = tiff_header_start + data as usize,
                 _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
@@ -138,21 +107,21 @@ fn main() {
     }
     println!("------------ GPS TAGS ------------");
     if gps_segment_start != 0 {
-        let gps_no_entries =  fetch_u16(&buffer, gps_segment_start, is_le);
+        let gps_no_entries =  data_reader::fetch_u16(&buffer, gps_segment_start, is_le);
         i = gps_segment_start + 2;
         for _ in 0..gps_no_entries {
-            let tag : u16 = fetch_u16(&buffer, i, is_le);
-            let format : u16 = fetch_u16(&buffer, i+2, is_le);
-            let len : u32 = fetch_u32(&buffer, i+4, is_le);
+            let tag : u16 = data_reader::fetch_u16(&buffer, i, is_le);
+            let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
+            let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
             let size : u32 = len * format_size(format);
-            let data : u32 = fetch_u32(&buffer, i+8, is_le);
+            let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
             
             match tag {
-                0x0001 => println!("N or S latitude: {}", fetch_null_terminated_str(&buffer, i+8)),
-                0x0002 => println!("Latitude: {} degs {} minutes {} seconds", fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
-                0x0003 => println!("W or E longitude: {}", fetch_null_terminated_str(&buffer, i+8)),
-                0x0004 => println!("Longitude: {} degs {} minutes {} seconds", fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
+                0x0001 => println!("N or S latitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
+                0x0002 => println!("Latitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
+                0x0003 => println!("W or E longitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
+                0x0004 => println!("Longitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
                 _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
             }
             
@@ -161,15 +130,15 @@ fn main() {
     }
     println!("------------ EXIF TAGS ------------");
     if exif_ifd_segment_start != 0 {
-        let exif_ifd_no_entries =  fetch_u16(&buffer, exif_ifd_segment_start, is_le);
+        let exif_ifd_no_entries =  data_reader::fetch_u16(&buffer, exif_ifd_segment_start, is_le);
         i = exif_ifd_segment_start + 2;
         for _ in 0..exif_ifd_no_entries {
-            let tag : u16 = fetch_u16(&buffer, i, is_le);
-            let format : u16 = fetch_u16(&buffer, i+2, is_le);
-            let len : u32 = fetch_u32(&buffer, i+4, is_le);
+            let tag : u16 = data_reader::fetch_u16(&buffer, i, is_le);
+            let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
+            let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
             let size : u32 = len * format_size(format);
-            let data : u32 = fetch_u32(&buffer, i+8, is_le);
+            let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
             
             match tag {
                 
