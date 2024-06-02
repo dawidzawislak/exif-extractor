@@ -3,6 +3,7 @@ use std::io::Read;
 use std::ffi::CStr;
 use std::os::raw::c_char;
 use std::str;
+use std::env;
 
 fn fetch_u16(data: &[u8], offset: usize, is_le: bool) -> u16 {
     let info = data[offset..(offset + 2)].try_into().unwrap();
@@ -52,11 +53,20 @@ fn format_size(format: u16) -> u32 {
     }
 }
 
+// Main function
+// arg[0] - program path
+// arg[1] - photo path
 fn main()  {
-    let path = "resources/images/test.jpg";
+    // Get the command line arguments
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        println!("Usage: {} <path to image>", args[0]);
+        return;
+    }
+    let path = &args[1];
     let mut file = File::open(path).unwrap();
     let mut buffer = Vec::<u8>::new();
-    let _ = file.read_to_end(&mut buffer);
+    file.read_to_end(&mut buffer).unwrap();
     let mut found_exif_segment : bool = false;
 
     let mut exif_segment_start : u16 = 0;
