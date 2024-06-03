@@ -2,25 +2,8 @@ use std::env;
 
 mod image_manager;
 mod data_reader;
+mod gps;
 mod exif;
-
-fn format_size(format: u16) -> u32 {
-    match format {
-        1 => 1,
-        2 => 1,
-        3 => 2,
-        4 => 4,
-        5 => 8,
-        6 => 1,
-        7 => 1,
-        8 => 2,
-        9 => 4,
-        10 => 8,
-        11 => 4,
-        12 => 8,
-        _ => 0
-    }
-}
 
 // Main function
 // arg[0] - program path
@@ -78,8 +61,7 @@ fn main() {
             let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
             let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
-            let size : u32 = len * format_size(format);
-
+            let size : u32 = len * data_reader::format_size(format);
             let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
 
             match tag {
@@ -95,6 +77,7 @@ fn main() {
                 0x0132 => println!("Photo created at: {}", data_reader::fetch_null_terminated_str(&buffer, tiff_header_start + data as usize)),
                 0x8769 => exif_ifd_segment_start = tiff_header_start + data as usize,
                 0x8825 => gps_segment_start = tiff_header_start + data as usize,
+                0x0213 => println!("YCbCr coefficients: {}", data),
                 _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
             }
             
@@ -105,29 +88,13 @@ fn main() {
             }
         }
     }
-    println!("------------ GPS TAGS ------------");
-    if gps_segment_start != 0 {
-        let gps_no_entries =  data_reader::fetch_u16(&buffer, gps_segment_start, is_le);
-        i = gps_segment_start + 2;
-        for _ in 0..gps_no_entries {
-            let tag : u16 = data_reader::fetch_u16(&buffer, i, is_le);
-            let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
-            let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
-            let size : u32 = len * format_size(format);
-            let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
-            
-            match tag {
-                0x0001 => println!("N or S latitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
-                0x0002 => println!("Latitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
-                0x0003 => println!("W or E longitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
-                0x0004 => println!("Longitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
-                _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
-            }
-            
-            i += 12;
-        }
-    }
+
+    println!("------------ GPS TAGS ------------");
+    gps::gps_tags(&buffer, gps_segment_start, tiff_header_start, is_le);
+
+
+
     println!("------------ EXIF TAGS ------------");
     if exif_ifd_segment_start != 0 {
         let exif_ifd_no_entries =  data_reader::fetch_u16(&buffer, exif_ifd_segment_start, is_le);
@@ -137,17 +104,17 @@ fn main() {
             let format : u16 = data_reader::fetch_u16(&buffer, i+2, is_le);
             let len : u32 = data_reader::fetch_u32(&buffer, i+4, is_le);
 
-            let size : u32 = len * format_size(format);
+            let size : u32 = len * data_reader::format_size(format);
             let data : u32 = data_reader::fetch_u32(&buffer, i+8, is_le);
             
             match tag {
-                
                 _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
             }
-            
             i += 12;
         }
     }
+
+
 }
 
 fn get_path_from_args() -> Option<String> {

@@ -2,6 +2,16 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 use std::str;
 
+pub fn format_size(format: u16) -> u32 {
+    match format {
+        1 | 2  | 6 | 7 => 1,
+        3 | 8          => 2,
+        4 | 9  | 11    => 4,
+        5 | 10 | 12    => 8,
+        _ => 0
+    }
+}
+
 pub fn fetch_u16(data: &[u8], offset: usize, is_le: bool) -> u16 {
     let info = data[offset..(offset + 2)].try_into().unwrap();
     if is_le {
