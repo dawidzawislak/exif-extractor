@@ -1,6 +1,10 @@
 use crate::data_reader;
+use crate::image_manager::Image;
 
-pub fn gps_tags(buffer: &[u8], gps_segment_start: usize, tiff_header_start: usize, is_le: bool) {
+pub fn gps_tags(buffer: &[u8], image_data: &mut Image) {
+    let gps_segment_start = image_data.gps_segment_start;
+    let tiff_header_start = image_data.tiff_header_start;
+    let is_le = image_data.is_le;
     let gps_no_entries =  data_reader::fetch_u16(&buffer, gps_segment_start, is_le);
     let mut i = gps_segment_start + 2;
     for _ in 0..gps_no_entries {
