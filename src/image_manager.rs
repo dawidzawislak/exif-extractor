@@ -32,9 +32,9 @@ impl Default for Image {
     }
 }
 pub fn open_image(path: String) -> Vec<u8> {
-    let mut file = File::open(path).unwrap();
+    let mut file = File::open(path).expect("File not found!");
     let mut buffer = Vec::<u8>::new();
-    file.read_to_end(&mut buffer).unwrap();
+    file.read_to_end(&mut buffer).expect("Failed to read file!");
     buffer
 }
 

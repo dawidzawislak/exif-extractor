@@ -8,7 +8,9 @@ git clone https://github.com/dawidzawislak/exif-extractor
 ```
 Build and run the project with the following commands
 ```
-./path/to/project/exif-extractor.exe <path/to/your/photo.jpg>
+./path/to/project/exif-extractor.exe <path/to/photo.jpg>
+or
+cargo run <path/to/photo.jpg>
 ```
 
 ## Tests
