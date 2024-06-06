@@ -30,10 +30,31 @@ pub fn fetch_u32(data: &[u8], offset: usize, is_le: bool) -> u32 {
     }
 }
 
+pub fn fetch_i32(data: &[u8], offset: usize, is_le: bool) -> i32 {
+    let info = data[offset..(offset + 4)].try_into().unwrap();
+    if is_le {
+        i32::from_le_bytes(info)
+    } else {
+        i32::from_be_bytes(info)
+    }
+}
+
 pub fn fetch_rational_str(data: &[u8], offset: usize, is_le : bool) -> String {
     let num = fetch_u32(data, offset, is_le);
     let den = fetch_u32(data, offset + 4, is_le);
     format!("{}/{}", num, den)
+}
+
+pub fn fetch_rational(data: &[u8], offset: usize, is_le : bool) -> f32 {
+    let num = fetch_u32(data, offset, is_le) as f32;
+    let den = fetch_u32(data, offset + 4, is_le) as f32;
+    num/den
+}
+
+pub fn fetch_signed_rational(data: &[u8], offset: usize, is_le : bool) -> f32 {
+    let num = fetch_i32(data, offset, is_le) as f32;
+    let den = fetch_i32(data, offset + 4, is_le) as f32;
+    num/den
 }
 
 pub fn fetch_null_terminated_str(data: &[u8], offset: usize) -> &str {

@@ -14,6 +14,7 @@ pub struct Image {
     pub found_exif_segment: bool,
     pub exif_segment_start: u16,
     pub exif_segment_size: u16,
+    pub ifd0_segment_start: usize,
 }
 
 impl Default for Image {
@@ -29,6 +30,7 @@ impl Default for Image {
             found_exif_segment: false,
             exif_segment_start: 0,
             exif_segment_size: 100,
+            ifd0_segment_start: 0,
         }
     }
 }
@@ -47,6 +49,7 @@ pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
     let mut found_exif_segment = false;
     let mut exif_segment_start = 0;
     let mut exif_segment_size = 100;
+    let mut ifd0_segment_start = 0;
     while i < exif_segment_start as usize + exif_segment_size as usize  {
         if found_exif_segment == false {
             if data_reader::fetch_u16(&buffer, i, is_le) == 0xFFE1 {
@@ -65,10 +68,12 @@ pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
                     is_le = false;
                 }
                 no_entries = data_reader::fetch_u16(&buffer, i+18, is_le);
-                println!("IFD0 start {}", i + 10 + buffer[i+14] as usize);
+                ifd0_segment_start = i + 10 + data_reader::fetch_u32(&buffer, i+14, is_le) as usize;
+                println!("IFD0 start {}", ifd0_segment_start);
                 println!("No. IFD0 entries {}", no_entries);
                 println!("-----------------------------------------------------");
                 found_exif_segment = true;
+
                 break;
             }
             else {
@@ -87,6 +92,7 @@ pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
         found_exif_segment,
         exif_segment_start,
         exif_segment_size,
+        ifd0_segment_start,
     })
 }
 
