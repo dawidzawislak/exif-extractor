@@ -1,8 +1,7 @@
 use crate::data_reader;
 use crate::image_manager::Image;
-use crate::cmd_reader::Config;
 
-pub fn exif_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
+pub fn exif_tags(buffer: &[u8], image_data: &mut Image) {
     let exif_ifd_segment_start = image_data.exif_ifd_segment_start;
     let tiff_header_start = image_data.tiff_header_start;
     let is_le = image_data.is_le;
@@ -51,13 +50,13 @@ pub fn exif_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
             0x9209 => println!("Flash parameters: {:08b}", data16),
             0x920a => println!("Focal length of lens: {}", data_reader::fetch_rational(&buffer, tiff_header_start + data as usize, is_le)),
             0x9214 => {
-                if (len == 2) {
+                if len == 2 {
                     println!("Subject area: [{}, {}]", data16, data_reader::fetch_u16(&buffer, i+10, is_le));
                 }
-                else if (len == 3) {
+                else if len == 3 {
                     println!("Subject area: [{}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le));
                 }
-                else if (len == 4) {
+                else if len == 4 {
                     println!("Subject area: [{}, {}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 6 + data as usize, is_le));
                 }
             }

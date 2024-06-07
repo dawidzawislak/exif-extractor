@@ -27,4 +27,4 @@ todo example
 Currently only JPG/JPEG files are supported.
 
 ## Test & Example photos
-Photos used in tests and examples are from [github](https://github.com/drewnoakes/metadata-extractor-images
+Photos used in tests and examples are from [github](https://github.com/drewnoakes/metadata-extractor-images)

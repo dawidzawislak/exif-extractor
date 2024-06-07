@@ -1,7 +1,6 @@
 use std::io::Read;
 use std::fs::File;
 use crate::data_reader;
-use crate::cmd_reader::Config;
 
 pub struct Image {
     pub is_le: bool,
@@ -41,7 +40,7 @@ pub fn open_image(path: &String) -> Vec<u8> {
     buffer
 }
 
-pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
+pub fn find_exif(buffer: &[u8]) -> Option<Image> {
     let mut i = 0;
     let mut is_le = false;
     let mut tiff_header_start = 0;
