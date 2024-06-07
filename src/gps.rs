@@ -18,9 +18,9 @@ pub fn gps_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
         
         match tag {
             0x0001 => println!("N or S latitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
-            0x0002 => println!("Latitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
+            0x0002 => println!("Latitude: {} degs {} minutes {} seconds", data_reader::fetch_rational(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational(&buffer, tiff_header_start + 16 + data as usize, is_le)),
             0x0003 => println!("W or E longitude: {}", data_reader::fetch_null_terminated_str(&buffer, i+8)),
-            0x0004 => println!("Longitude: {} degs {} minutes {} seconds", data_reader::fetch_rational_str(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational_str(&buffer, tiff_header_start + 16 + data as usize, is_le)),
+            0x0004 => println!("Longitude: {} degs {} minutes {} seconds", data_reader::fetch_rational(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_rational(&buffer, tiff_header_start + 8 + data as usize, is_le), data_reader::fetch_rational(&buffer, tiff_header_start + 16 + data as usize, is_le)),
             _ => println!("OTHER: TAG: 0x{:04X} | format {} | size {} | data {}", tag, format, size, data),
         }
         

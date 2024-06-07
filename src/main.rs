@@ -31,7 +31,7 @@ fn main() {
         0 => println!("No GPS tags found!"),
         _ => gps::gps_tags(&buffer, &mut image_data, &config),
     }
-    if config.print{ println!("------------ EXIF TAGS ------------"); }
+    if config.print { println!("------------ EXIF TAGS ------------"); }
     match image_data.exif_ifd_segment_start {
         0 => println!("No EXIF tags found!"),
         _ => exif::exif_tags(&buffer, &mut image_data, &config),
