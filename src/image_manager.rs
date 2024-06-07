@@ -1,6 +1,7 @@
 use std::io::Read;
 use std::fs::File;
 use crate::data_reader;
+use crate::cmd_reader::Config;
 
 pub struct Image {
     pub is_le: bool,
@@ -95,3 +96,14 @@ pub fn find_exif(buffer: &[u8]) -> Option<Image> {
     })
 }
 
+pub fn save_image(buffer: &[u8], config: &Config) {
+    if config.save_new {
+        let mut result = File::create(&config.new_path).expect("Failed to create new file!");
+        std::io::Write::write_all(&mut result, &buffer).expect("Failed to write to new file!");
+        println!("New image saved as new.jpg")
+    } else {
+        let mut result = File::create(&config.path).expect("Failed to create new file!");
+        std::io::Write::write_all(&mut result, &buffer).expect("Failed to write to new file!");
+        println!("Image overwritten!")
+    }
+}

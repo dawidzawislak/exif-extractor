@@ -4,6 +4,7 @@ mod gps;
 mod exif;
 mod idf;
 mod cmd_reader;
+mod cleaner;
 
 use image_manager::Image;
 use cmd_reader::Config;
@@ -34,6 +35,11 @@ fn main() {
             0 => println!("No EXIF tags found!"),
             _ => exif::exif_tags(&buffer, &mut image_data),
         }
+        println!();
     }
-    //if config
+    if config.clean {
+        cleaner::clean_exif(&mut buffer, &mut image_data);
+        println!("Cleaned exif data!");
+        image_manager::save_image(&buffer, &config);
+    }
 }
