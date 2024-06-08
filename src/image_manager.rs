@@ -41,7 +41,7 @@ pub fn open_image(path: &String) -> Vec<u8> {
     buffer
 }
 
-pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
+pub fn find_exif(buffer: &[u8]) -> Option<Image> {
     let mut i = 0;
     let mut is_le = false;
     let mut tiff_header_start = 0;
@@ -96,3 +96,14 @@ pub fn find_exif(buffer: &[u8], config: &Config) -> Option<Image> {
     })
 }
 
+pub fn save_image(buffer: &[u8], config: &Config) {
+    if config.save_new {
+        let mut result = File::create(&config.new_path).expect("Failed to create new file!");
+        std::io::Write::write_all(&mut result, &buffer).expect("Failed to write to new file!");
+        println!("New image saved as new.jpg")
+    } else {
+        let mut result = File::create(&config.path).expect("Failed to create new file!");
+        std::io::Write::write_all(&mut result, &buffer).expect("Failed to write to new file!");
+        println!("Image overwritten!")
+    }
+}

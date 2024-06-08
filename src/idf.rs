@@ -1,8 +1,7 @@
 use crate::data_reader;
 use crate::image_manager::Image;
-use crate::cmd_reader::Config;
 
-pub fn idf_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
+pub fn idf_tags(buffer: &[u8], image_data: &mut Image) {
     let no_entries = image_data.no_entries;
     let tiff_header_start = image_data.tiff_header_start;
     let is_le = image_data.is_le;
