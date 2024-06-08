@@ -13,7 +13,7 @@ macro_rules! println {
                 .write(true)
                 .append(true)
                 .create(true)
-                .open("outp.txt")
+                .open(&config.output_path)
                 .expect("Failed to open output file!");
             writeln!(file, $($arg)*).expect("Failed to write to output file!");
         }
