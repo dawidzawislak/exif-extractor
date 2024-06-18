@@ -78,7 +78,10 @@ Offset time: +02:00
 ...
 ```
 ## Tests
-todo tests
+Unit tests are located in same file as the source code. To run tests, use the following command:
+```
+cargo test
+```
 
 ## Supported file formats
 Currently only JPG files are supported.
