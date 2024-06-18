@@ -23,6 +23,7 @@ Additional flags:
 - `-v` or `--version` - prints version
 
 ## Example
+All photos used in the examples are located in the `resources/images` directory and corresponding output files are located in the `resources/cleaned` directory. Also, the `*.txt` data extracted from the photos is saved in the `resources/output` directory.
 <table>
     <thead>
         <tr>
@@ -46,7 +47,36 @@ Additional flags:
     </tbody>
 </table>
 
-
+Short slice of the output file:
+```
+------------ IDF TAGS ------------
+Image width: 4608
+Image height: 2592
+Manufacturer of the recording equipment: samsung
+Recording equipment model: SM-G970F
+Orientation of image: 1
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Software used to create image: G970FXXSGHWC2
+Photo created at: 2024:05:24 12:14:02
+Y and C positioning: 1
+------------ GPS TAGS ------------
+N or S latitude: N
+Latitude: 49 degs 22 minutes 53.96664 seconds
+W or E longitude: E
+Longitude: 20 degs 57 minutes 5.337359 seconds
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.02
+F-number: 2.2
+Exposure Time: 2
+ISO Speed Ratings: [200, 0]
+Exif version: 0220
+Datetime original: 2024:05:24 12:14:02
+Datetime original digitized: 2024:05:24 12:14:02
+Offset time: +02:00
+...
+```
 ## Tests
 todo tests
 

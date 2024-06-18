@@ -13,10 +13,10 @@ use image_manager::Image;
 // arg[0] - program path
 // arg[1] - photo path
 // arg[2..] - program flags
-//          -p -print : print all tags
-//          -c -clean : clean all tags
-//          -n -new : save image with cleared tags in new file
-//          -o -output : print output to file
+//          -p --print : print all tags
+//          -c --clean : clean all tags
+//          -n --new : save image with cleared tags in new file
+//          -o --output : print output to file
 fn main() {
     let config = cmd_reader::get_path_from_args();
     let mut buffer: Vec<u8> = image_manager::open_image(&config.path);
