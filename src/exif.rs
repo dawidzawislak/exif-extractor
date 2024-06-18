@@ -1,8 +1,8 @@
 use crate::data_reader;
 use crate::image_manager::Image;
-use crate::cmd_reader::Config;
+use crate::println;
 
-pub fn exif_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
+pub fn exif_tags(buffer: &[u8], image_data: &mut Image) {
     let exif_ifd_segment_start = image_data.exif_ifd_segment_start;
     let tiff_header_start = image_data.tiff_header_start;
     let is_le = image_data.is_le;

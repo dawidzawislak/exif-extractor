@@ -1,8 +1,8 @@
 use crate::data_reader;
 use crate::image_manager::Image;
-use crate::cmd_reader::Config;
+use crate::println;
 
-pub fn gps_tags(buffer: &[u8], image_data: &mut Image, config: &Config) {
+pub fn gps_tags(buffer: &[u8], image_data: &mut Image) {
     let gps_segment_start = image_data.gps_segment_start;
     let tiff_header_start = image_data.tiff_header_start;
     let is_le = image_data.is_le;
