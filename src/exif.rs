@@ -51,14 +51,11 @@ pub fn exif_tags(buffer: &[u8], image_data: &mut Image) {
             0x9209 => println!("Flash parameters: {:08b}", data16),
             0x920a => println!("Focal length of lens: {}", data_reader::fetch_rational(&buffer, tiff_header_start + data as usize, is_le)),
             0x9214 => {
-                if len == 2 {
-                    println!("Subject area: [{}, {}]", data16, data_reader::fetch_u16(&buffer, i+10, is_le));
-                }
-                else if len == 3 {
-                    println!("Subject area: [{}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le));
-                }
-                else if len == 4 {
-                    println!("Subject area: [{}, {}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 6 + data as usize, is_le));
+                match len {
+                    2: println!("Subject area: [{}, {}]", data16, data_reader::fetch_u16(&buffer, i+10, is_le));
+                    3: println!("Subject area: [{}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le));
+                    4: println!("Subject area: [{}, {}, {}, {}]", data_reader::fetch_u16(&buffer, tiff_header_start + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 2 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 4 + data as usize, is_le), data_reader::fetch_u16(&buffer, tiff_header_start + 6 + data as usize, is_le));
+                    _: println!("Error while parsing subject area!")
                 }
             }
             0x927c => println!("Location of manufacturer dependent internal data: {}", data),
