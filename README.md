@@ -11,16 +11,41 @@ Run the project with the following commands:
 cd exif-extractor
 cargo run <path/to/photo.jpg> <flags>
 ```
-Where flags are:
+Options:
 - `-p` or `--print` - prints all EXIF tags
 - `-o` or `--output` `<outputname.txt>` - saves all EXIF tags to a file named `<outputname.txt>`
 - `-c` or `--clean` - removes all EXIF tags and:
     - `-n` / `-new` `<filename.jpg>`- creates a new file named `filename.jpg` with the cleaned EXIF data
     - none - overwrites the original file with the cleaned EXIF data
 
+Additional flags:
+- `-h` or `--help` - prints help message
+- `-v` or `--version` - prints version
+
 ## Example
-todo example  
-<img src="./resources/images/example.jpg">
+<table>
+    <thead>
+        <tr>
+            <th>Before</th>
+            <th>After</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center"><img src="./resources/readme/before1.png" height=300/></td>
+            <td align="center"><img src="./resources/readme/after1.png" height=300/></td>
+        </tr>
+        <tr>
+            <td align="center"><img src="./resources/readme/before2.png" height=300/></td>
+            <td align="center"><img src="./resources/readme/after2.png" height=300/></td>
+        </tr>
+        <tr>
+            <td align="center"><img src="./resources/readme/before3.png" height=300/></td>
+            <td align="center"><img src="./resources/readme/after3.png" height=300/></td>
+        </tr>
+    </tbody>
+</table>
+
 
 ## Tests
 todo tests
