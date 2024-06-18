@@ -1,0 +1,64 @@
+------------ IDF TAGS ------------
+Image title:                                
+Manufacturer of the recording equipment: SONY
+Recording equipment model: DSC-HX5V
+Orientation of image: 1
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Photo created at: 2010:07:14 11:00:23
+Y and C positioning: 2
+OTHER: TAG: 0xC4A5 | format 7 | size 28 | data 242
+------------ GPS TAGS ------------
+OTHER: TAG: 0x0000 | format 1 | size 4 | data 514
+N or S latitude: N
+Latitude: 39 degs 34 minutes 11.562 seconds
+W or E longitude: W
+Longitude: 104 degs 18 minutes 13.847 seconds
+OTHER: TAG: 0x0005 | format 1 | size 1 | data 0
+OTHER: TAG: 0x0006 | format 5 | size 8 | data 11028
+OTHER: TAG: 0x0007 | format 5 | size 24 | data 11036
+OTHER: TAG: 0x0009 | format 2 | size 2 | data 86
+OTHER: TAG: 0x000A | format 2 | size 2 | data 51
+OTHER: TAG: 0x000C | format 2 | size 2 | data 75
+OTHER: TAG: 0x000D | format 5 | size 8 | data 11060
+OTHER: TAG: 0x000E | format 2 | size 2 | data 84
+OTHER: TAG: 0x000F | format 5 | size 8 | data 11068
+OTHER: TAG: 0x0010 | format 2 | size 2 | data 77
+OTHER: TAG: 0x0011 | format 5 | size 8 | data 11076
+OTHER: TAG: 0x0012 | format 2 | size 7 | data 11084
+OTHER: TAG: 0x001D | format 2 | size 11 | data 11092
+OTHER: TAG: 0x001E | format 3 | size 2 | data 0
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.003125
+F-number: 8
+Exposure Time: 2
+ISO Speed Ratings: [125, 0]
+Exif version: 0221
+Datetime original: 2010:07:14 11:00:23
+Datetime original digitized: 2010:07:14 11:00:23
+Component configuration: 197121
+Avarage compresion ratio of JPEG: 4
+Exposure bias [EV]: 0
+Max apreture value: 3.625
+Metering mode: 5
+Light source: 0
+Flash parameters: 00010000
+Focal length of lens: 4.25
+Location of manufacturer dependent internal data: 724
+FlashPix version: 0100
+Color space: 1
+Main image width: 3648
+Main image height: 2736
+Interoperability IFD pointer: 10716
+FileSource: 
+SceneType: 
+Custom image processing: 0
+Exposure mode: 0
+White balance: 0
+Scene campute type: 1
+Contrast: 0
+Saturation: 0
+Sharpness: 0
+
+Cleaned exif data!

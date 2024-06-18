@@ -1,0 +1,48 @@
+------------ IDF TAGS ------------
+Image title: SAMSUNG CAMERA PICTURES
+Manufacturer of the recording equipment: SAMSUNG
+Recording equipment model: NX3000
+Orientation of image: 1
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Software used to create image: FW Ver 01.00
+Photo created at: 2014:08:12 09:03:27
+Y and C positioning: 2
+Copyright holder: Copyright 2014
+------------ GPS TAGS ------------
+No GPS tags found!
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.0125
+F-number: 5.6
+Exposure Time: 3
+ISO Speed Ratings: [800, 0]
+Exif version: 0230
+Datetime original: 2014:08:12 09:03:27
+Datetime original digitized: 2014:08:12 09:03:27
+Component configuration: 197121
+Exposure bias [EV]: 0
+Max apreture value: 4.98
+Metering mode: 5
+Light source: 0
+Flash parameters: 00000000
+Focal length of lens: 43
+Location of manufacturer dependent internal data: 896
+FlashPix version: 0100
+Color space: 1
+Main image width: 5472
+Main image height: 3648
+Interoperability IFD pointer: 40218
+Type of image sensor unit: 2
+FileSource: 
+SceneType: 
+Exposure mode: 0
+White balance: 0
+Digital zoom ratio: 0
+Focal length in 35mm film: 66
+Scene campute type: 0
+Sharpness: 0
+Lens specs: [Min focal lenght (mm): 16,  Min focal lenght (mm): 50, Min F number: 3.5, Max F number: 22]
+Lens model: NX 16-50mm F3.5-5.6 Power Zoom
+
+Cleaned exif data!
