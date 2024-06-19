@@ -1,0 +1,46 @@
+------------ IDF TAGS ------------
+Image width: 4608
+Image height: 2592
+Manufacturer of the recording equipment: samsung
+Recording equipment model: SM-G970F
+Orientation of image: 1
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Software used to create image: G970FXXSGHWC2
+Photo created at: 2024:05:24 12:14:02
+Y and C positioning: 1
+------------ GPS TAGS ------------
+N or S latitude: N
+Latitude: 49 degs 22 minutes 53.96664 seconds
+W or E longitude: E
+Longitude: 20 degs 57 minutes 5.337359 seconds
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.02
+F-number: 2.2
+Exposure Time: 2
+ISO Speed Ratings: [200, 0]
+Exif version: 0220
+Datetime original: 2024:05:24 12:14:02
+Datetime original digitized: 2024:05:24 12:14:02
+Offset time: +02:00
+Offset time original: +02:00
+Shutter speed value: 5.64
+Aperture value: 2.27
+Brightness [EV]: 1.87
+Exposure bias [EV]: 0
+Max apreture value: 2.27
+Metering mode: 2
+Flash parameters: 00000000
+Focal length of lens: 1.8
+Color space: 1
+Main image width: 4608
+Main image height: 2592
+Exposure mode: 0
+White balance: 0
+Digital zoom ratio: 1
+Focal length in 35mm film: 13
+Scene campute type: 0
+Unique image ID: Failed to convert: invalid utf-8 sequence of 1 bytes from index 0
+
+Cleaned exif data!

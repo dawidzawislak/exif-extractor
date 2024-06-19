@@ -1,0 +1,35 @@
+------------ IDF TAGS ------------
+Image title: TRAVELER DIGITAL CAMERA        
+Manufacturer of the recording equipment: TRAVELER OPTICAL CO,LTD
+Recording equipment model: SX330Z
+Orientation of image: 1
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Software used to create image: v951-78
+Photo created at: 2001:12:00 00:00:00
+Y and C positioning: 2
+------------ GPS TAGS ------------
+No GPS tags found!
+------------ EXIF TAGS ------------
+ISO Speed Ratings: [100, 0]
+Exif version: 0210
+Datetime original: 2002:01:20 13:52:46
+Datetime original digitized: 2002:01:20 13:52:44
+Component configuration: 197121
+Avarage compresion ratio of JPEG: 0.12722646
+Shutter speed value: 6.125
+Aperture value: 3.5055
+Exposure bias [EV]: 0
+Distance to focus point [m]: NaN
+Metering mode: 0
+Flash parameters: 00000001
+Focal length of lens: 23.28
+Location of manufacturer dependent internal data: 536
+FlashPix version: 0100
+Color space: 1
+Main image width: 1024
+Main image height: 768
+Interoperability IFD pointer: 886
+
+Cleaned exif data!

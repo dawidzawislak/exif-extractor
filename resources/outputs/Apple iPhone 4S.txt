@@ -1,0 +1,40 @@
+------------ IDF TAGS ------------
+Manufacturer of the recording equipment: Apple
+Recording equipment model: iPhone 4S
+Orientation of image: 6
+Image resolution in width direction: 72/1
+Image resolution in height direction: 72/1
+Image resolution unit (inches): 2
+Software used to create image: 5.1.1
+Photo created at: 2012:08:26 15:53:03
+Y and C positioning: 1
+------------ GPS TAGS ------------
+No GPS tags found!
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.00066979235
+F-number: 2.4
+Exposure Time: 2
+ISO Speed Ratings: [64, 0]
+Exif version: 0221
+Datetime original: 2012:08:26 15:53:03
+Datetime original digitized: 2012:08:26 15:53:03
+Component configuration: 16909056
+Shutter speed value: 10.543551
+Aperture value: 2.526069
+Brightness [EV]: 9.193846
+Metering mode: 5
+Flash parameters: 00010000
+Focal length of lens: 4.28
+Subject area: [1631, 1223, 881, 881]
+FlashPix version: 0100
+Color space: 1
+Main image width: 3264
+Main image height: 2448
+Type of image sensor unit: 2
+Exposure mode: 0
+White balance: 0
+Focal length in 35mm film: 35
+Scene campute type: 0
+Sharpness: 0
+
+Cleaned exif data!

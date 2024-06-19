@@ -61,11 +61,10 @@ pub fn find_exif(buffer: &[u8]) -> Option<Image> {
                     return None;
                 }
                 tiff_header_start = i+10;
-                if data_reader::fetch_u32(&buffer, i+10, is_le) == 0x49492A00 {
-                    is_le = true;
-                } 
-                else if data_reader::fetch_u32(&buffer, i+10, is_le) == 0x4D4D002A {
-                    is_le = false;
+                match data_reader::fetch_u32(&buffer, i+10, is_le) {
+                    0x49492A00 => is_le = true,
+                    0x4D4D002A => is_le = false,
+                    _ => panic!("Invalid TIFF header!")
                 }
                 no_entries = data_reader::fetch_u16(&buffer, i+18, is_le);
                 ifd0_segment_start = i + 10 + data_reader::fetch_u32(&buffer, i+14, is_le) as usize;
@@ -80,6 +79,10 @@ pub fn find_exif(buffer: &[u8]) -> Option<Image> {
                 i += 1;
             }
         }
+    }
+    if found_exif_segment == false {
+        println!("No EXIF segment found!");
+        return None;
     }
     Some(Image {
         is_le,
@@ -105,5 +108,39 @@ pub fn save_image(buffer: &[u8], config: &Config) {
         let mut result = File::create(&config.path).expect("Failed to create new file!");
         std::io::Write::write_all(&mut result, &buffer).expect("Failed to write to new file!");
         println!("Image overwritten!")
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_find_exif_none() {
+        let buffer = vec![0; 200];
+        let image = find_exif(&buffer);
+        assert_eq!(image.is_some(), false);
+    }
+
+    #[test]
+    fn test_find_exif_some() {
+        let mut buffer = vec![0; 200];
+        buffer[0] = 0xFF;
+        buffer[1] = 0xE1;
+        buffer[2] = 0x00;
+        buffer[3] = 0x0E;
+        buffer[4] = 'E' as u8;
+        buffer[5] = 'x' as u8;
+        buffer[6] = 'i' as u8;
+        buffer[7] = 'f' as u8;
+        buffer[8] = 0x00;
+        buffer[9] = 0x00;
+        buffer[10] = 0x4D;
+        buffer[11] = 0x4D;
+        buffer[12] = 0x00;
+        buffer[13] = 0x2A;
+        let image = find_exif(&buffer);
+        assert_eq!(image.is_some(), true);
     }
 }

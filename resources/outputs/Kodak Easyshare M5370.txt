@@ -1,0 +1,57 @@
+------------ IDF TAGS ------------
+Manufacturer of the recording equipment: EASTMAN KODAK COMPANY
+Recording equipment model: KODAK EASYSHARE Touch Camera, M5370
+Orientation of image: 1
+Image resolution in width direction: 480/1
+Image resolution in height direction: 480/1
+Image resolution unit (inches): 2
+Photo created at: 2011:12:07 12:07:38
+Y and C positioning: 1
+OTHER: TAG: 0x4746 | format 3 | size 2 | data 0
+------------ GPS TAGS ------------
+No GPS tags found!
+------------ EXIF TAGS ------------
+Exposure time [s]: 0.033333335
+F-number: 3.9
+Exposure Time: 2
+ISO Speed Ratings: [320, 0]
+Sensitivity type: 3
+Exif version: 0230
+Datetime original: 2011:12:07 12:07:38
+Datetime original digitized: 2011:12:07 12:07:38
+Component configuration: 197121
+Shutter speed value: 5
+Aperture value: 3.9
+Brightness [EV]: 2
+Exposure bias [EV]: 0
+Max apreture value: 3.9
+Metering mode: 2
+Light source: 2
+Flash parameters: 00010000
+Focal length of lens: 5.1
+Location of manufacturer dependent internal data: 17300
+Datetime original subseconds: 
+Datetime digitized subseconds: 
+FlashPix version: 0100
+Color space: 1
+Main image width: 4608
+Main image height: 3456
+Interoperability IFD pointer: 37810
+Exposure index: 320
+Type of image sensor unit: 2
+FileSource: 
+SceneType: 
+Custom image processing: 0
+Exposure mode: 0
+White balance: 1
+Digital zoom ratio: 0
+Focal length in 35mm film: 28
+Scene campute type: 0
+Gain control: 0.8000641
+Contrast: 0
+Saturation: 1
+Sharpness: 0
+Subject distance range: 0
+Body serial number: KCTPS13111021
+
+Cleaned exif data!
